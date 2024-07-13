@@ -1,47 +1,44 @@
-const express = require('express');
-const user = require('./routes/user');
-const message = require('./routes/message');
-const { app } = require('./index');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const fileUpload = require('express-fileupload');
-const { cloudinaryConnect } = require('./config/clodinary');
-const { dbConnect } = require('./config/database'); // Assuming dbConnect is a function to connect to the database
+const express = require('express')
 
-const { server, io } = require('./socketIO/server'); // Adjust the path as per your actual directory structure
+const user = require('./routes/user')
+const message =require('./routes/message')
+const {app , server} = require('./socketIO/server')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const fileUpload = require('express-fileupload')
 
-app.use(express.json());
-app.use(cookieParser());
+const { cloudinaryConnect } = require('./config/clodinary')
+
+app.use(express.json())
+app.use(cookieParser())
 
 app.use(
   fileUpload({
-    useTempFiles: true,
-    tempFileDir: '/tmp',
+      useTempFiles:true,
+      tempFileDir:'/tmp',
   })
-);
+)
 
-cloudinaryConnect(); // Assuming this function connects to Cloudinary
-
+cloudinaryConnect()
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));  
 
-app.use(cors());
-require('dotenv').config();
-
-const port = process.env.PORT || 4000;
-const frontendURL = 'https://harshspark-chat-web.netlify.app'; // Replace with your actual frontend URL
+app.use(cors())
+require("dotenv").config()
+const port = process.env.PORT||4000
 
 app.get('/', (req, res) => {
-  res.send(`<h1>Server is running up</h1>`);
-});
+  res.send(`<h1>server is ruunig up</h1>`)
+})
 
-// Connect to database
-dbConnect();
+const db = require('./config/database')
 
-app.use('/api/user', user);
-app.use('/api/message', message);
+db.dbConnect()
+
+
+app.use("/api/user",user)
+app.use("/api/message",message)
 
 server.listen(port, () => {
-  console.log(`Server is running at ${port}`);
-  console.log(`Socket.IO is configured to allow connections from ${frontendURL}`);
-});
+  console.log(`Example app listening on port ${port}`)
+})
