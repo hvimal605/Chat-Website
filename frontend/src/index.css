@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.flex-1::-webkit-scrollbar{
+    display: none;
+}
+.spinner {
+    width: 100px;
+    height: 100px;
+    display: grid;
+    animation: spinner-plncf9 4s infinite;
+ }
+ 
+ .spinner::before,
+ .spinner::after {
+    content: "";
+    grid-area: 1/1;
+    border: 9px solid;
+    border-radius: 50%;
+    border-color: #474bff #474bff #0000 #0000;
+    mix-blend-mode: darken;
+    animation: spinner-plncf9 1s infinite linear;
+ }
+ 
+ .spinner::after {
+    border-color: #0000 #0000 #dbdcef #dbdcef;
+    animation-direction: reverse;
+ }
+ 
+ @keyframes spinner-plncf9 {
+    100% {
+       transform: rotate(1turn);
+    }
+ }
+
+ /* HTML: <div class="loader"></div> */
+.loadertyping {
+   width: 60px;
+   aspect-ratio: 2;
+   --_g: no-repeat radial-gradient(circle closest-side,#000 90%,#0000);
+   background: 
+     var(--_g) 0%   50%,
+     var(--_g) 50%  50%,
+     var(--_g) 100% 50%;
+   background-size: calc(100%/3) 50%;
+   animation: l3 1s infinite linear;
+   background-color: beige;
+   border-radius: 15px; 
+   padding: 5px 20px;
+
+ }
+ @keyframes l3 {
+     20%{background-position:0%   0%, 50%  50%,100%  50%}
+     40%{background-position:0% 100%, 50%   0%,100%  50%}
+     60%{background-position:0%  50%, 50% 100%,100%   0%}
+     80%{background-position:0%  50%, 50%  50%,100% 100%}
+ }
+ 
