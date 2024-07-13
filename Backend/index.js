@@ -1,44 +1,56 @@
-const express = require('express')
+const express = require('express');
+const user = require('./routes/user');
+const message = require('./routes/message');
+const { app, server } = require('./socketIO/server');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+const { cloudinaryConnect } = require('./config/clodinary');
 
-const user = require('./routes/user')
-const message =require('./routes/message')
-const {app , server} = require('./socketIO/server')
-const cors = require('cors')
-const cookieParser = require('cookie-parser')
-const fileUpload = require('express-fileupload')
-
-const { cloudinaryConnect } = require('./config/clodinary')
-
-app.use(express.json())
-app.use(cookieParser())
+app.use(express.json());
+app.use(cookieParser());
 
 app.use(
   fileUpload({
-      useTempFiles:true,
-      tempFileDir:'/tmp',
+    useTempFiles: true,
+    tempFileDir: '/tmp',
   })
-)
+);
 
-cloudinaryConnect()
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true }));  
+cloudinaryConnect();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(cors())
-require("dotenv").config()
-const port = process.env.PORT||4000
+// Configure CORS to allow requests from multiple origins
+const allowedOrigins = [
+  'https://harshspark-chat-web.netlify.app',
+  'http://localhost:5173'
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
+require("dotenv").config();
+const port = process.env.PORT || 4000;
 
 app.get('/', (req, res) => {
-  res.send(`<h1>server is ruunig up</h1>`)
-})
+  res.send('<h1>Server is running up</h1>');
+});
 
-const db = require('./config/database')
+const db = require('./config/database');
+db.dbConnect();
 
-db.dbConnect()
-
-
-app.use("/api/user",user)
-app.use("/api/message",message)
+app.use("/api/user", user);
+app.use("/api/message", message);
 
 server.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+  console.log(`Example app listening on port ${port}`);
+});
