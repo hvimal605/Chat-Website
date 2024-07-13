@@ -1,12 +1,13 @@
 const express = require('express');
 const user = require('./routes/user');
 const message = require('./routes/message');
-const { app, server } = require('./socketIO/server'); // Adjust this path as per your structure
+const { app, server } = require('./socketIO/server'); 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
-const { cloudinaryConnect } = require('./config/cloudinary');
+
 const db = require('./config/database');
+const { cloudinaryConnect } = require('./config/clodinary');
 require("dotenv").config();
 
 // Connect to database
