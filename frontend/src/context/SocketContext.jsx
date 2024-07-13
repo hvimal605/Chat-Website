@@ -11,8 +11,8 @@ export const useSocketContext = () => {
 export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
-    const [typingUsers, setTypingUsers] = useState([]); // New state for tracking typing users
-    const [authUser] = useAuth();
+    const [typingUsers, setTypingUsers] = useState([]);
+    const [authUser] = useAuth(); 
 
     useEffect(() => {
         if (authUser) {
@@ -42,8 +42,6 @@ export const SocketProvider = ({ children }) => {
                     });
                 }
             });
-
-           
 
             return () => socket.close();
         } else {
