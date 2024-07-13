@@ -29,27 +29,13 @@ io.on("connection", (socket) => {
 
     io.emit('getOnlineUsers', Object.keys(users));
 
-
     socket.on('typing', (data) => {
         const { senderId, receiverId, isTyping } = data;
         const receiverSocketId = getRececiverSocketId(receiverId);
         if (receiverSocketId) {
             io.to(receiverSocketId).emit('typing', { senderId, isTyping });
-
         }
-        // console.log("typing" , senderId  ,"to",receiverId , isTyping)
     });
-
-    // socket.on("sendImage", (data) => {
-    //     const { receiverId, image, senderId } = data;
-    //     const receiverSocketId = getRececiverSocketId(receiverId);
-    //     if (receiverSocketId) {
-    //         io.to(receiverSocketId).emit("receiveImage", { image, senderId });
-    //     }
-    //     console.log("sender" , senderId  ,"to",receiverId , image)
-    // });
-
-    
 
     socket.on("disconnect", () => {
         console.log("A user disconnected", socket.id);

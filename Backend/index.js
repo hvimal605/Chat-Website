@@ -1,15 +1,26 @@
 const express = require('express');
 const user = require('./routes/user');
 const message = require('./routes/message');
-const { app, server } = require('./socketIO/server');
+const { app, server } = require('./socketIO/server'); // Adjust this path as per your structure
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
-const { cloudinaryConnect } = require('./config/clodinary');
+const { cloudinaryConnect } = require('./config/cloudinary');
+const db = require('./config/database');
+require("dotenv").config();
 
+// Connect to database
+db.dbConnect();
+
+// Initialize Express app
+const app = express();
+
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// File upload middleware
 app.use(
   fileUpload({
     useTempFiles: true,
@@ -17,14 +28,12 @@ app.use(
   })
 );
 
+// Cloudinary setup
 cloudinaryConnect();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// Configure CORS to allow requests from multiple origins
+// CORS configuration
 const allowedOrigins = [
-  'https://harshspark-chat-web.netlify.app',
-  'http://localhost:5173'
+  'https://harshspark-chat-web.netlify.app'
 ];
 
 app.use(cors({
@@ -38,19 +47,16 @@ app.use(cors({
   credentials: true
 }));
 
-require("dotenv").config();
-const port = process.env.PORT || 4000;
-
+// Routes
 app.get('/', (req, res) => {
   res.send('<h1>Server is running up</h1>');
 });
 
-const db = require('./config/database');
-db.dbConnect();
-
 app.use("/api/user", user);
 app.use("/api/message", message);
 
+// Start server
+const port = process.env.PORT || 4000;
 server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
