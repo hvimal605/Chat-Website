@@ -12,9 +12,6 @@ require("dotenv").config();
 // Connect to database
 db.dbConnect();
 
-// Initialize Express app
-const app = express();
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
