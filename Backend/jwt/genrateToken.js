@@ -10,7 +10,7 @@ exports.createTokenAndSaveCookie=(userid,res)=>{
         httpOnly:true, 
         Secure:true,
         sameSite:"strict"
-       
+       //
     })
 
 } 
