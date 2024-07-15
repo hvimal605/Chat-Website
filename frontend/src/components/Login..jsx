@@ -26,7 +26,7 @@ const Login = () => {
 
         }
        
-        axios.post("/api/user/login",userinfo)
+        axios.post("https://chat-website-isk6.onrender.com/api/user/login",userinfo)
         
             .then((response) => {
                 
