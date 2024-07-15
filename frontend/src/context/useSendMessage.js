@@ -10,7 +10,7 @@ const useSendMessage = () => {
         setLoading(true);
 
         try {
-            const res = await axios.post(`/api/message/send/${selectedConversation._id}`, {
+            const res = await axios.post(`https://chat-website-isk6.onrender.com/api/message/send/${selectedConversation._id}`, {
                 message: messageContent
             });
 

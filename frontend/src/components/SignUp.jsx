@@ -34,7 +34,7 @@ const SignUp = () => {
 
         }
 
-        await axios.post("/api/user/signup", userinfo)
+        await axios.post("https://chat-website-isk6.onrender.com/api/user/signup", userinfo)
             .then((response) => {
                 if(response.data){
                 toast.success(" signup successful")

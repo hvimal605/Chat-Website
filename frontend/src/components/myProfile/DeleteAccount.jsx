@@ -13,7 +13,7 @@ const DeleteAccount = () => {
 
   async function handleDeleteAccount() {
     try {
-      const response = await axios.post("/api/user/deleteAccount", { authUserId });
+      const response = await axios.post("https://chat-website-isk6.onrender.com/api/user/deleteAccount", { authUserId });
 
       if (response.data.success) {
         localStorage.removeItem("ChatApp");

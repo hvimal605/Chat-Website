@@ -30,7 +30,7 @@ const Settings = () => {
     const onSubmit = async (data) => {
         const toastId = toast.loading("Loading...");
         try {
-            const response = await axios.put("/api/user/updateProfile", { Id, data });
+            const response = await axios.put("https://chat-website-isk6.onrender.com/api/user/updateProfile", { Id, data });
             // console.log("ye dekh le",response.data.user.image)
             if (response.data.success) {
                 // Update local authUser context or state here

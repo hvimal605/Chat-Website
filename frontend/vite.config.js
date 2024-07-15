@@ -8,7 +8,7 @@ export default defineConfig({
       '/api': {
         target: 'https://chat-website-isk6.onrender.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '') // Optional: Rewrite removes '/api' prefix
+        
       }
     }
   }

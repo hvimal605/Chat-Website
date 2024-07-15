@@ -18,7 +18,7 @@ const ForgotPassword = () => {
         e.preventDefault();
         console.log(email)
 
-        axios.post("/api/user/resetPasswordToken",{email})
+        axios.post("https://chat-website-isk6.onrender.com/api/user/resetPasswordToken",{email})
         
         
         .then((response) => {

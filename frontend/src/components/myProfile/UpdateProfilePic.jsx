@@ -48,7 +48,7 @@ export default function ChangeProfilePicture() {
       formData.append("displayPicture", imageFile);
       formData.append("authUserId", authUserId);
 
-      const response = await axios.put("/api/user/updateDisplayPicture", formData);
+      const response = await axios.put("https://chat-website-isk6.onrender.com/api/user/updateDisplayPicture", formData);
 
       if (response.data.success) {
         toast.success(response.data.message);
