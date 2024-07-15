@@ -25,7 +25,9 @@ app.use(fileUpload({
 cloudinaryConnect()
 
 // CORS configuration
-const allowedOrigins = ["https://harshspark-chat-web.netlify.app"];
+const allowedOrigins = ["https://harshspark-chat-web.netlify.app"
+  ,"http://localhost:5173"
+];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
