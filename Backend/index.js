@@ -30,20 +30,23 @@ app.use(
 cloudinaryConnect();
 
 // CORS configuration
-const allowedOrigins = [
-  'https://harshspark-chat-web.netlify.app'
-];
+app.use(
+  cors({
+      origin: function (origin, callback) {
+          const allowedOrigins = [
+            "https://harshspark-chat-web.netlify.app"
+          ];
+          if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+              callback(null, true);
+          } else {
+              callback(new Error('Not allowed by CORS'));
+          }
+      },
+      credentials: true,
+  })
+);
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
+
 
 // Routes
 app.get('/', (req, res) => {
