@@ -2,48 +2,46 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from './AuthProvider';
 import io from 'socket.io-client';
 
-const socketContext = createContext();
+const SocketContext = createContext();
 
 export const useSocketContext = () => {
-    return useContext(socketContext);
+    return useContext(SocketContext);
 }
 
 export const SocketProvider = ({ children }) => {
     const [socket, setSocket] = useState(null);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [typingUsers, setTypingUsers] = useState([]);
-    const [authUser] = useAuth(); 
+    const { user: authUser } = useAuth(); 
 
     useEffect(() => {
         if (authUser) {
-            const socket = io("https://chat-website-isk6.onrender.com", {
+            const newSocket = io("https://chat-website-isk6.onrender.com", {
                 query: {
                     userId: authUser._id,
                 }
             });
 
-            setSocket(socket);
+            setSocket(newSocket);
 
-            socket.on("getOnlineUsers", (users) => {
+            newSocket.on("getOnlineUsers", (users) => {
                 setOnlineUsers(users);
             });
 
-            socket.on("typing", ({ senderId, isTyping }) => {
-                if (isTyping) {
-                    setTypingUsers((prevTypingUsers) => {
+            newSocket.on("typing", ({ senderId, isTyping }) => {
+                setTypingUsers((prevTypingUsers) => {
+                    if (isTyping) {
                         if (!prevTypingUsers.includes(senderId)) {
                             return [...prevTypingUsers, senderId];
                         }
-                        return prevTypingUsers;
-                    });
-                } else {
-                    setTypingUsers((prevTypingUsers) => {
+                    } else {
                         return prevTypingUsers.filter((userId) => userId !== senderId);
-                    });
-                }
+                    }
+                    return prevTypingUsers;
+                });
             });
 
-            return () => socket.close();
+            return () => newSocket.close();
         } else {
             if (socket) {
                 socket.close();
@@ -72,8 +70,8 @@ export const SocketProvider = ({ children }) => {
     };
 
     return (
-        <socketContext.Provider value={{ socket, onlineUsers, typingUsers, emitTypingEvent, emitMessageSeenEvent }}>
+        <SocketContext.Provider value={{ socket, onlineUsers, typingUsers, emitTypingEvent, emitMessageSeenEvent }}>
             {children}
-        </socketContext.Provider>
+        </SocketContext.Provider>
     );
 }
