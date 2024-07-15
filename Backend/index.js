@@ -44,8 +44,8 @@ app.get('/', (req, res) => {
   res.send('<h1>Server is running up</h1>');
 });
 
-app.use("https://chat-website-isk6.onrender.com/api/user", userRoutes);
-app.use("https://chat-website-isk6.onrender.com/api/message", messageRoutes);
+app.use("/api/user", userRoutes);
+app.use("/api/message", messageRoutes);
 
 // Start server
 const port = process.env.PORT || 4000;
