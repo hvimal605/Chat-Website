@@ -1,12 +1,16 @@
-const jwt = require("jsonwebtoken");
-require('dotenv').config();
+const jwt = require("jsonwebtoken")
+require('dotenv').config()
+exports.createTokenAndSaveCookie=(userid,res)=>{
+    const token = jwt.sign({userid},process.env.JWT_SECRET,
+        { 
+            expiresIn: "10d"
+        }
+    )
+    res.cookie("harshcookie",token,{
+        httpOnly:true, 
+        Secure:true,
+        sameSite:"strict"
+       
+    })
 
-exports.createTokenAndSaveCookie = (userid, res) => {
-    const token = jwt.sign({ userid }, process.env.JWT_SECRET, { expiresIn: "10d" });
-
-    res.cookie("harshcookie", token, {
-        httpOnly: true,
-        secure: true, // Ensure cookie is sent over HTTPS only
-        sameSite: "None" // Adjust as per your CORS and cookie requirements
-    });
-}
+} 
