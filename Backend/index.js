@@ -6,7 +6,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
 const db = require('./config/database');
-const { cloudinaryConnect } = require('./config/cloudinary');
+const { cloudinaryConnect } = require('./config/clodinary');
+
 require("dotenv").config();
 
 // Connect to database
@@ -21,8 +22,7 @@ app.use(fileUpload({
   tempFileDir: '/tmp',
 }));
 
-// Cloudinary setup
-cloudinaryConnect();
+cloudinaryConnect()
 
 // CORS configuration
 const allowedOrigins = ["https://harshspark-chat-web.netlify.app"];
