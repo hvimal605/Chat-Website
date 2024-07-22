@@ -293,43 +293,38 @@ exports.updateDisplayPicture = async (req, res) => {
   }
 
  
-exports.updateProfile = async (req, res) => {
+  exports.updateProfile = async (req, res) => {
     try {
-        // console.log("ye dekh bhai zara ",req.body.data)
         const {
             FullName,
             dateOfBirth,
             bio
-        } = req.body.data
-        const id = req.body.Id
-
-
-
-
+        } = req.body.data;
+        const id = req.body.Id;
 
         const user = await User.findByIdAndUpdate(id, {
-            fullname:FullName,
+            fullname: FullName,
             dateOfBirth,
-            bio,
-            
-        },{new:true})
-        await user.save()
+            bio
+        }, { new: true });
 
-
-
-
-
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
 
         return res.json({
             success: true,
             message: "Profile updated successfully",
             user
-        })
+        });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         return res.status(500).json({
             success: false,
-            error: error.message,
-        })
+            error: error.message
+        });
     }
-}  
+};
