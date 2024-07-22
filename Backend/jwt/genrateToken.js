@@ -8,7 +8,7 @@ exports.createTokenAndSaveCookie=(userid,res)=>{
     )
     res.cookie("harshcookie",token,{
         httpOnly:true, 
-        Secure:true,
+        secure:true,
         sameSite:"strict"
        
     })

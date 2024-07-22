@@ -13,17 +13,17 @@ const useGetAllUsers = () => {
                 const token = Cookies.get('harshcookie');
                 console.log("Token:", token); // Check token in console
                 const response = await axios.get('https://chat-website-isk6.onrender.com/api/user/allusers', {
+                    credentials: "include",
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
                 console.log("Response Data:", response.data); // Check response data
                 setAllUsers(response.data); // Assign only the data part of the response
+                setLoading(false);
             } catch (error) {
                 console.log("Error in useGetAllUsers:", error); // Log any errors
-            } finally {
-                setLoading(false);
-            }
+            } 
         };
 
         getUsers();
